@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.lsk.safetybelt.mapper.UserMapperCustom">
+
+
+	<sql id="users_query_where">
+		<if test="usersCustom!=null">
+			<if test="usersCustom.name!=null and usersCustom.name!=''">
+					user.name like '%${userCustom.name}%'			
+			</if>
+		</if>
+	</sql>
+
+
+	<select id="findUserList" parameterType="cn.lsk.safetybelt.vo.UsersQueryVo" resultType="cn.lsk.safetybelt.po.UsersCustom">
+		select user.* from user
+		<where>
+		<include refid="users_query_where"></include>
+		
+		</where>
+	</select>
+	
+	
+	
+	
+	<!--定义分页查询的spl片段  -->
+	<sql id="user_page_where">
+		<if test="keyWord!=null and keyWord!=''"> 
+			name like '%${keyWord}%'
+		</if>
+		<if test="keyWord!=null and keyWord!=''"> 
+			or id like '%${keyWord}%'
+		</if>
+		
+	</sql>
+	<!-- 分页查询列表数据 -->
+	<select id="findUserPageList" parameterType="cn.lsk.safetybelt.vo.Page" resultType="cn.lsk.safetybelt.po.UsersCustom">
+	select user.* from user
+		<where>
+			<include refid="user_page_where"></include>
+		</where>
+		LIMIT #{start},#{rows}
+	</select>
+	
+	<select id="findUserPageCount" parameterType="cn.lsk.safetybelt.vo.Page" resultType="java.lang.Integer">
+	SELECT
+	COUNT( 1 ) 
+	FROM
+	USER
+		<where>
+			<include refid="user_page_where"></include>
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lsk.safetybelt.mapper.ManagerMapperCustom">
+
+	
+	<select id="findManagerList" parameterType="Page" resultType="manager">
+		SELECT
+			manager.* 
+		FROM
+			manager 
+		WHERE
+			identity = 0
+			limit #{start},#{rows}
+	</select>
+	
+	<select id="findManagerCount" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1) 
+		FROM
+			manager 
+		WHERE
+			identity = 0
+    </select>
+    
+    
+    
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lsk.safetybelt.mapper.DeviceMapperCustom">
+
+
+
+	<!-- 定义sql片段 -->
+	<sql id="device_like_serach">
+		<if test="keyWord!=null and keyWord!=''">
+			id LIKE '%${keyWord}%' 
+			OR user_id LIKE '%${keyWord}%' 
+		</if>
+	</sql>
+
+
+
+
+
+	<select id="findDeviceList" parameterType="cn.lsk.safetybelt.vo.Page" resultType="cn.lsk.safetybelt.po.DeviceCustom">
+		SELECT
+			device.user_id as userId,
+			device.* 
+		FROM
+			`device` 
+		<where>
+			<include refid="device_like_serach"></include>
+		</where>
+		LIMIT #{start},#{rows}
+	</select>
+	
+	<select id="findDeviceListCount" resultType="java.lang.Integer">
+		SELECT
+			count( 1 ) 
+		FROM
+			device
+		<where>
+			<include refid="device_like_serach"></include>
+		</where>
+	</select>
+
+
+
+
+
+</mapper>
